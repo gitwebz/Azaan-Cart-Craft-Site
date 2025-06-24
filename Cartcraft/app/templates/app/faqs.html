@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}FAQs{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h2 class="fw-bold mb-4" style="background: linear-gradient(90deg, #ff6200, #ff8533); -webkit-background-clip: text; color: transparent;">Frequently Asked Questions</h2>
+      <div class="mb-3">
+        <h5 class="fw-semibold">Q: What products does CartCraft offer?</h5>
+        <p>A: We offer a wide range of mobiles, laptops, and fashion items for men and women.</p>
+      </div>
+      <div class="mb-3">
+        <h5 class="fw-semibold">Q: How long does delivery take?</h5>
+        <p>A: Delivery usually takes 3–5 business days depending on your location.</p>
+      </div>
+      <!-- Add more FAQs here -->
+    </div>
+  </div>
+</div>
+{% endblock main-content %}

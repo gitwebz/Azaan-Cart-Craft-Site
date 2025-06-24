@@ -1,0 +1,25 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Search{% endblock title %}
+
+{% block main-content %}
+  <div class="container mt-4">
+    <h3>Search Results for "{{ query }}"</h3>
+
+    {% if results %}
+      <ul class="list-group mt-3">
+        {% for product in results %}
+          <li class="list-group-item">
+            <a href="{% url 'product-detail' product.pk %}">{{ product.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="mt-4 text-center text-muted">
+        <h5>😕 Oops! No products found for "<strong>{{ query }}</strong>"</h5>
+        <p>Try searching with different keywords.</p>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

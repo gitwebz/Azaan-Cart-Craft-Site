@@ -1,0 +1,90 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Product Detail{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+
+    <!-- Product Image -->
+    <div class="col-sm-6 text-center align-self-center">
+      <img src="{{ product.product_image.url }}" alt="{{ product.title }}" class="img-fluid img-thumbnail">
+    </div>
+
+    <!-- Product Info -->
+    <div class="col-sm-5 offset-sm-1">
+      <h2>{{ product.title }}</h2>
+      <hr>
+
+      <!-- Price with comma formatting -->
+      <h3 class="fw-bold" style="color: #ff6200;">
+        Rs. {{ product.formatted_discounted_price }}
+        <small class="text-muted text-decoration-line-through fs-5">Rs. {{ product.formatted_selling_price }}</small>
+      </h3>
+
+      <br>
+
+      <!-- Availability -->
+      <div class="mb-4">
+        <h5 class="fw-bold">Availability</h5>
+        {% if product.in_stock %}
+          <span class="badge bg-success rounded-pill">In Stock</span>
+          <p class="text-muted small mt-1">Ships within 4–5 business days</p>
+        {% else %}
+          <span class="badge bg-danger rounded-pill">Out of Stock</span>
+          <p class="text-muted small mt-1">Notify me when available</p>
+        {% endif %}
+      </div>
+
+      <!-- Specifications: Only show if values exist -->
+      <h5 class="fw-bold">Specifications</h5>
+      <ul class="list-unstyled">
+        {% if product.ram %}<li><strong>RAM:</strong> {{ product.ram }}</li>{% endif %}
+        {% if product.processor %}<li><strong>Processor:</strong> {{ product.processor }}</li>{% endif %}
+        {% if product.battery %}<li><strong>Battery:</strong> {{ product.battery }}</li>{% endif %}
+        {% if product.display %}<li><strong>Display:</strong> {{ product.display }}</li>{% endif %}
+        {% if product.storage %}<li><strong>Storage:</strong> {{ product.storage }}</li>{% endif %}
+        {% if product.size %}<li><strong>Size:</strong> {{ product.size }}</li>{% endif %}
+        {% if product.fabric %}<li><strong>Fabric:</strong> {{ product.fabric }}</li>{% endif %}
+        {% if product.color %}<li><strong>Color:</strong> {{ product.color }}</li>{% endif %}
+        {% if product.description %}
+          <li><strong>Other Features:</strong> <span style="white-space: pre-wrap;">{{ product.description }}</span></li>
+        {% endif %}
+      </ul>
+      <br>
+      <form action="{% url 'add-to-cart' %}" class="d-inline">
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <button type="submit" class="btn btn-primary shadow px-5 py-2">Add to Cart</button>
+      </form>
+
+
+
+
+      <!-- Buttons -->
+      {% if user.is_authenticated %}
+        <form action="{% url 'buy-now' %}" method="POST" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <button type="submit" class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}?next={% url 'checkout' %}" class="btn btn-danger shadow px-5 py-2 ms-4">Login to Buy Now</a>
+      {% endif %}
+
+
+      <!-- Offers (Pakistan specific) -->
+      <h5 class="mt-5">Available Offers</h5>
+      <ul>
+        <li>Bank Offer: 5% Cashback on HBL and UBL Debit and Credit Cards</li>
+        <li>Special Price: Get extra PKR 5,000 off (price inclusive of discount)</li>
+        <li>No cost EMI available with selected banks, starting from PKR 2,000/month</li>
+        <li>Partner Offer: PKR 1,000 gift voucher on every purchase above PKR 50,000</li>
+        <li>SALE IS LIVE NOW</li>
+        <li>0% Markup Installments with Silk Bank – Terms & Conditions apply</li>
+      </ul>
+
+    </div>
+
+  </div>
+</div>
+{% endblock main-content %}

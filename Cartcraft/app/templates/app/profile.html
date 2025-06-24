@@ -1,0 +1,59 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+
+
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="d-flex align-items-center gap-3 mb-4">
+  <div class="rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 48px; height: 48px; background: linear-gradient(90deg, #ff6200, #ff8533); color: white; font-weight: bold; font-size: 1.2rem;">
+    {{ request.user.username|slice:":1" }}
+  </div>
+  <h3 class="fw-bold m-0">Welcome, {{request.user.username }}</h3>
+</div>
+
+    <!-- Sidebar -->
+    <div class="col-sm-2 border-end">
+      <ul class="list-unstyled">
+        <li class="d-grid mb-2">
+          <a href="{% url 'profile' %}" class="btn {{active}} " style="background: linear-gradient(90deg, #ff6200, #ff8533); color: white; border: none;">Profile</a>
+        </li>
+        <li class="d-grid">
+          <a href="{% url 'address' %}" class="btn btn-outline-secondary">Address</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Form Section -->
+    <div class="col-sm-8 offset-sm-1">
+      {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success my-2">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger small">{{ field.errors }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn text-white"
+            style="background: linear-gradient(90deg, #ff6200, #ff8533); border: none;">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock main-content %}

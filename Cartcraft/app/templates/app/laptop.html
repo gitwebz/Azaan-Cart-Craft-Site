@@ -1,0 +1,65 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Laptops{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+
+    <!-- Sidebar Filter -->
+    <div class="col-sm-3">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-dark text-white text-center">
+          <strong>Filter by Brand</strong>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item {% if not request.resolver_match.kwargs.data %}bg-light fw-bold text-dark{% endif %}">
+            <a href="{% url 'laptop' %}" class="text-decoration-none d-block">💻 All Laptops</a>
+          </li>
+          <li class="list-group-item {% if request.resolver_match.kwargs.data == 'HP' %}bg-light fw-bold text-dark{% endif %}">
+            <a href="{% url 'laptopdata' 'HP' %}" class="text-decoration-none d-block">🔷 HP</a>
+          </li>
+          <li class="list-group-item {% if request.resolver_match.kwargs.data == 'Dell' %}bg-light fw-bold text-dark{% endif %}">
+            <a href="{% url 'laptopdata' 'DELL' %}" class="text-decoration-none d-block">🔷 Dell</a>
+          </li>
+          <li class="list-group-item {% if request.resolver_match.kwargs.data == 'Lenovo' %}bg-light fw-bold text-dark{% endif %}">
+            <a href="{% url 'laptopdata' 'LENOVO' %}" class="text-decoration-none d-block">🔷 Lenovo</a>
+          </li>
+          <li class="list-group-item {% if request.resolver_match.kwargs.data == 'Asus' %}bg-light fw-bold text-dark{% endif %}">
+            <a href="{% url 'laptopdata' 'Asus' %}" class="text-decoration-none d-block">🔷 Asus</a>
+          </li>
+          <li class="list-group-item {% if request.resolver_match.kwargs.data == 'Acer' %}bg-light fw-bold text-dark{% endif %}">
+            <a href="{% url 'laptopdata' 'Acer' %}" class="text-decoration-none d-block">🔷 Acer</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Laptop Product Cards -->
+    <div class="col-sm-8 offset-sm-1">
+      <div class="row">
+        {% for product in laptops %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">{{ product.brand }}</p>
+              <p class="card-text fw-bold" style="color: #ff6200;">Rs.{{ product.formatted_discounted_price }}</p>
+              <p class="card-text text-muted"><del>Rs.{{ product.selling_price }}</del></p>
+              <a href="{% url 'product-detail' product.id %}" class="btn btn-sm text-white" style="background: linear-gradient(90deg, #ff6200, #ff8533);">View Details</a>
+
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+          <p class="text-muted">No laptops found in this category.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock main-content %}

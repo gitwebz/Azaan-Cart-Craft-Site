@@ -1,0 +1,87 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}My Orders{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <div class="col-md-3 mb-4">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="rounded-circle d-flex align-items-center justify-content-center shadow" 
+             style="width: 48px; height: 48px; background: linear-gradient(90deg, #ff6200, #ff8533); color: white; font-weight: bold; font-size: 1.2rem;">
+          {{ request.user.username|slice:":1" }}
+        </div>
+        <h4 class="fw-bold m-0">{{ request.user.username }}</h4>
+      </div>
+      <hr>
+      <ul class="list-unstyled">
+        <li class="d-grid mb-2">
+          <a href="{% url 'orders' %}" class="btn {{active}} " style="background: linear-gradient(90deg, #ff6200, #ff8533); color: white; border: none;">My Orders</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Orders List -->
+    <div class="col-md-9">
+      <h3 class="fw-bold mb-4" style="color:rgb(0, 0, 0);">Your Orders</h3>
+      <hr>
+
+      {% if orders %}
+        {% for order in orders %}
+          <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body d-flex align-items-center">
+              
+              <img src="{{ order.product.product_image.url }}" alt="{{ order.product.title }}"
+                   class="img-thumbnail me-3" style="width: 90px; height: 90px; object-fit: cover;">
+
+              <div class="flex-grow-1">
+                
+                <h5 class="fw-bold mb-1">{{ order.product.title }}</h5>
+                <p class="mb-1">Order ID: <code>{{ order.order_id }}</code></p>
+                <p class="mb-1">Quantity: {{ order.quantity }}</p>
+                <p class="mb-1">
+                Price:
+                <span class="fw-bold" style="color: #ff6200;">
+                  Rs. {{ order.product.discounted_price|intcomma }}
+                </span>
+              </p>
+                <p class="mb-1">
+                  Status:
+                  <span class="badge 
+  {% if order.order_status == 'Pending' %}bg-warning text-dark
+  {% elif order.order_status == 'Accepted' %}bg-warning text-dark
+  {% elif order.order_status == 'Packed' %}bg-primary
+  {% elif order.order_status == 'On the Way' %}bg-primary
+  {% elif order.order_status == 'Delivered' %}bg-success
+  {% elif order.order_status == 'Cancelled' %}bg-danger
+  {% else %}bg-secondary{% endif %}">
+  {{ order.order_status }}
+</span>
+
+                </p>
+                <p class="mb-1 text-muted">Order Date: {{ order.order_date|date:"d M Y, h:i A" }}</p>
+                
+
+
+                <!-- WhatsApp Tracking Button -->
+                <a href="https://wa.me/923258680608?text=Track%20My%20Order%20{{ order.order_id }}" 
+                   class="btn btn-success btn-sm mt-2" target="_blank">
+                  Track on WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-warning text-center">
+          😕 You have no orders yet.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

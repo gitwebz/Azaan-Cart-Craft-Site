@@ -1,0 +1,85 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Cart{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+    <h2 class="text-center mb-5"><i class="fas fa-shopping-cart me-2" style="font-size: 1.5rem;"></i>CartCraft</h2>
+
+    <!-- Cart Items Section -->
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="section-heading">
+            <i class="fas fa-shopping-cart me-2" style="font-size: 1.5rem;"></i>Your Cart 
+          </h3>
+
+          {% for cart in cart %}
+          <hr>
+          <div class="row">
+            <div class="col-sm-3 text-center align-self-center">
+              <img src="{{ cart.product.product_image.url }}" alt="{{ cart.product.title }}" class="img-fluid img-thumbnail shadow-sm" height="150" width="150">
+            </div>
+            <div class="col-sm-9">
+              <h5>{{ cart.product.title }}</h5>
+              <p class="mb-2 text-muted small">Description: {{ cart.product.description }}</p>
+              <div class="my-3">
+                <label for="quantity">Quantity:</label>
+                <a data-cart-id="{{ cart.id }}" class="minus-cart btn"><i class="fas fa-minus-square fa-lg"></i></a>
+                  <span id="quantity-{{ cart.id }}">{{ cart.quantity }}</span>
+                  <a data-cart-id="{{ cart.id }}" class="plus-cart btn"><i class="fas fa-plus-square fa-lg"></i></a>
+
+
+              </div>
+              <div class="d-flex justify-content-between">
+                <a href="javascript:void(0);" 
+                  class="btn btn-sm text-white rounded-pill remove-cart" 
+                  data-cart-id="{{ cart.id }}" 
+                  style="background-color: #ff6600;">
+                  <i class="fas fa-trash-alt me-1"></i> Remove
+                </a>
+
+                <p class="mb-0"><span><strong>Rs. {{ cart.product.formatted_discounted_price }}</strong></span></p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+
+          <h3 class="mb-4">The Total Amount of</h3>
+      <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+        Amount<span id="amount">{{ total_amount|intcomma }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+        Shipping<span id="shipping">
+          {% if shipping_cost == 0 %}Free{% else %}Rs. {{ shipping_cost|intcomma }}{% endif %}
+        </span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+        <div><strong>Total</strong> <small>(Including TAX)</small></div>
+        <span><strong id="total">{{ grand_total|intcomma }}</strong></span>
+      </li>
+
+                </ul>
+
+                <div class="d-grid"><a href="{% url 'checkout' %}" class="btn" style="background-color: #ff6600; color: white;">Place Order</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock main-content %}

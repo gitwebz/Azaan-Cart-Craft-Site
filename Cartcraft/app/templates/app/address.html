@@ -1,0 +1,60 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Address{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="row">
+    <!-- Avatar & Welcome -->
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <div class="rounded-circle d-flex align-items-center justify-content-center shadow"
+           style="width: 48px; height: 48px; background: linear-gradient(90deg, #ff6200, #ff8533); color: white; font-weight: bold; font-size: 1.2rem;">
+        {{ add.name|slice:":1" }}
+      </div>
+      <h3 class="fw-bold m-0">Welcome, {{ add.name }}</h3>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-sm-2 border-end">
+      <ul class="list-unstyled">
+        <li class="d-grid mb-2">
+          <a href="{% url 'profile' %}" class="btn btn-outline-secondary">Profile</a>
+        </li>
+        <li class="d-grid">
+          <a href="{% url 'address' %}" class="btn btn-primary" style="background: linear-gradient(90deg, #ff6200, #ff8533); color: white;">Address</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Address Info -->
+    <div class="col-sm-9 offset-sm-1">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+              <h4 class="mb-3 text-gradient fw-bold">Your Saved Address</h4>
+              <ul class="list-unstyled lh-lg">
+                <li><strong>Name:</strong> {{ add.name }}</li>
+                <li><strong>Address Line:</strong> {{ add.locality }}</li>
+                <li><strong>Address City:</strong> {{ add.city }}</li>
+                <li><strong>State:</strong> {{ add.state }}</li>
+                <li><strong>Zipcode:</strong> {{ add.zipcode }}</li>
+                <li><strong>Mobile:</strong> {{ add.mobile }}</li>
+              </ul>
+              <div class="text-end mt-3">
+                <a href="{% url 'profile' %}"
+                   class="btn btn-sm text-white"
+                   style="background: linear-gradient(90deg, #ff6200, #ff8533); border: none;">
+                  Edit Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> 
+</div>
+{% endblock main-content %}

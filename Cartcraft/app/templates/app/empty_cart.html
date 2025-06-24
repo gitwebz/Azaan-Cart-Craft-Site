@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Empty Cart{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+  <div class="text-center py-5">
+    <img src="{% static 'app/images/banner/b9.jpg' %}" alt="Empty Cart" class="img-fluid mb-4" style="max-width: 200px;">
+    <h3 class="mb-3 text-dark">Your Cart is Empty</h3>
+    <p class="text-muted mb-4">Looks like you haven’t added anything to your cart yet.</p>
+    <a href="{% url 'home' %}" class="btn btn-warning text-white px-4 py-2" style="background-color: #ff6600; border: none;">
+      <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+    </a>
+  </div>
+</div>
+{% endblock main-content %}

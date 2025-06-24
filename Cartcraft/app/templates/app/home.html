@@ -1,0 +1,466 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block banner_slider %}
+<!-- Add space above and below banner -->
+<style>
+  #carouselExampleControls {
+    margin-top: 20px;  /* space below navbar */
+    margin-bottom: 10px; /* space below banner images before dots */
+    position: relative;
+  }
+  /* Move indicators container below carousel */
+  .carousel-indicators {
+    position: static;  /* remove absolute positioning */
+    margin-top: 10px;  /* space above dots */
+    display: flex;
+    justify-content: center;
+  }
+  .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #999;
+    border: none;
+    margin: 0 6px;
+    opacity: 0.6;
+  }
+  .carousel-indicators .active {
+    background-color: #333;
+    opacity: 1;
+  }
+  /* Temporary inline CSS to ensure Owl Carousel arrows display */
+  .owl-nav {
+    display: block !important;
+  }
+  .owl-nav .owl-prev,
+  .owl-nav .owl-next {
+    display: inline-block !important;
+    font-size: 24px;
+    color: #fff;
+    background: #ff6200;
+    padding: 10px 20px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background 0.3s ease;
+  }
+  .owl-nav .owl-prev {
+    left: 10px;
+  }
+  .owl-nav .owl-next {
+    right: 10px;
+  }
+  .owl-nav .owl-prev:hover,
+  .owl-nav .owl-next:hover {
+    background: #ff8533;
+  }
+  .owl-nav .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+ .product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
+.product-link:hover {
+  text-decoration: none;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 15px;
+  text-align: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+  max-height: 180px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.product-card .title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #333;
+  height: 40px;
+  overflow: hidden;
+}
+
+.product-card .price {
+  color: #ff6200;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.product-card .price .actual-price {
+  font-size: 0.95rem;
+  color: #999;
+  text-decoration: line-through;
+  margin-right: 8px;
+  font-weight: normal;
+}
+
+.product-card .buy-btn {
+  background: linear-gradient(90deg, #ff6200, #ff8533);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.product-card .buy-btn:hover {
+  background: #ff8533;
+  color: white;
+}
+
+
+  .owl-carousel .item {
+    padding: 5px;
+  }
+
+  .discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff6200;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 5px;
+
+  }
+  .price .actual-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.95rem;
+  margin-right: 6px;
+}
+
+ .section-heading {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 8px;
+    display: inline-block;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    text-transform: capitalize;
+  }
+
+  .product-slider-section {
+  background: #ffffff; 
+  padding: 40px 0;      
+  border-top: none;
+  border-bottom: none;
+}
+
+.product-slider-wrapper {
+  background: transparent; 
+  border-radius: 0;         
+  padding: 0;
+  box-shadow: none;
+  
+}
+.view-all-btn {
+  display: inline-block;
+  background: #ff6200;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.view-all-btn:hover {
+  background: #ff8533;
+  color: white;
+}
+
+/* Common background matching website */
+.fashion-banner-bar {
+  background-color: #fff; /* Use your site’s background color */
+  border-top: none;
+  border-bottom: none;
+}
+
+/* Feature Boxes */
+.feature-box {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: #ff6200;
+}
+
+/* Fashion Coming Soon */
+.fashion-banner-bar {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.fashion-banner-bar h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.fashion-banner-bar p {
+  font-size: 1rem;
+  color: #555;
+}
+
+
+
+
+</style>
+{% if messages %}
+  <div class="container mt-4">
+    {% for message in messages %}
+      <div class="alert alert-dismissible fade show shadow-sm border-0 rounded-3 px-4 py-3 d-flex align-items-start" role="alert" style="background-color: #fdf8f2;">
+        <i class="fas fa-check-circle me-2 mt-1" style="font-size: 1.3rem; color: #ff6600;"></i>
+        <div class="flex-grow-1">
+          <span class="fw-semibold" style="font-size: 1rem; color: #ff6600;">
+            {{ message|safe }}
+          </span>
+          <a href="{% url 'cart' %}" 
+            class="ms-2 fw-semibold px-3 py-1 rounded-pill text-white text-decoration-none" 
+            style="background-color: #ff6600; font-size: 0.95rem;">
+            Go to Cart →
+          </a>
+
+        </div>
+        <button type="button" class="btn-close ms-2 mt-1" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+
+
+
+<!-- Banner Slider -->
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'app/images/banner/b1.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'app/images/banner/b2.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'app/images/banner/b3.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'app/images/banner/b4.png' %}" class="d-block w-100 carousel-img" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'app/images/banner/b5.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'app/images/banner/b6.jpg' %}" class="d-block w-100 carousel-img" alt="...">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </a>
+</div>
+
+<!-- End Banner Slider -->
+{% endblock banner_slider %}
+
+{% block livesale %}
+<!-- Live Sale Section -->
+<div class="container">
+  <div class="row bg-dark text-center p-5 text-white border-bottom shadow">
+    <h1>SALE IS LIVE NOW</h1>
+    <span>5% Instant Discount on Silk Bank Credit and Debit Card</span>
+    <small class="fw-lighter">Term and Condition Applied (For details visit Bank's official Website)</small>
+  </div>
+</div> 
+<!-- End Live Sale Section -->
+{% endblock livesale %}
+
+{% block main-content %}
+<!-- 📱 Mobile Phones -->
+<div class="product-slider-section">
+  <div class="container product-slider-wrapper">
+    <h2 class="section-heading">
+      <i class="fas fa-shopping-cart me-2" style="font-size: 1.5rem;"></i>CartCraft Mobile Phones
+    </h2>
+    <div class="owl-carousel owl-theme" id="slider1">
+      {% for m in mobiles %}
+      <div class="item">
+        <a href="{% url 'product-detail' m.id %}" class="product-link">
+          <div class="product-card">
+            <span class="discount-badge">Summer Sale</span>
+            <img src="{{ m.product_image.url }}" alt="{{ m.title }}">
+            <div class="title">{{ m.title }}</div>
+            <div class="price">
+              <span class="actual-price">Rs.{{ m.formatted_selling_price }}</span>
+              Rs.{{ m.formatted_discounted_price }}
+            </div>
+            <div class="buy-btn">Buy Now</div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- View All Mobiles Button -->
+    <div class="text-center mt-4">
+      <a href="{% url 'mobile' %}" class="view-all-btn">View All Mobiles</a>
+    </div>
+  </div>
+</div>
+
+<!-- 💻 Laptop Section -->
+<div class="product-slider-section">
+  <div class="container product-slider-wrapper">
+    <h2 class="section-heading">
+      <i class="fas fa-shopping-cart me-2" style="font-size: 1.5rem;"></i>CartCraft Latest Laptop 
+    </h2>
+    <div class="owl-carousel owl-theme" id="slider3">
+      {% for l in laptops %}
+      <div class="item">
+        <a href="{% url 'product-detail' l.id %}" class="product-link">
+          <div class="product-card">
+            <span class="discount-badge">Summer Sale</span>
+            <img src="{{ l.product_image.url }}" alt="{{ l.title }}">
+            <div class="title">{{ l.title }}</div>
+            <div class="price">
+              <span class="actual-price">Rs.{{ l.formatted_selling_price }}</span>
+              Rs.{{ l.formatted_discounted_price }}
+            </div>
+            <div class="buy-btn">Buy Now</div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- View All Laptops Button -->
+    <div class="text-center mt-4">
+      <a href="{% url 'laptop' %}" class="view-all-btn">View All Laptops</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- 🚚 Shipping & Service Info Section -->
+<div class="shipping-info-bar py-5">
+  <div class="container text-center">
+    <div class="row justify-content-center text-center">
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-shield-alt feature-icon"></i>
+          <h6 class="mt-2">PTA Approved</h6>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-certificate feature-icon"></i>
+          <h6 class="mt-2">1 Year Warranty</h6>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-shipping-fast feature-icon"></i>
+          <h6 class="mt-2">Free Shipping Over Rs.20,000</h6>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-map-marked-alt feature-icon"></i>
+          <h6 class="mt-2">Fast Delivery All Over Pakistan</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 👔 Fashion Coming Soon Section -->
+<div class="fashion-coming-soon my-5 py-5">
+  <div class="container text-center">
+    <h2 class="section-heading mb-4">
+      <i class="fas fa-tshirt me-2" style="color: #ff6200;"></i>Fashion Collection Coming Soon
+    </h2>
+    <p class="lead text-muted mb-4">
+      Exciting <strong>Men's Clothing</strong> is on the way — Trendy. Comfortable. Affordable.
+    </p>
+    <div class="row justify-content-center text-center">
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-star feature-icon"></i>
+          <h6 class="mt-2">Premium Quality</h6>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-tshirt feature-icon"></i>
+          <h6 class="mt-2">Modern Styles</h6>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-tags feature-icon"></i>
+          <h6 class="mt-2">Affordable Prices</h6>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="feature-box">
+          <i class="fas fa-user-check feature-icon"></i>
+          <h6 class="mt-2">Curated For You</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock main-content %}

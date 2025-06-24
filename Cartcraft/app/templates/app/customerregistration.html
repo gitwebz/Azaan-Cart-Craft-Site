@@ -1,0 +1,59 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Customer Registration{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+  <div class="row my-4">
+    <div class="col-sm-6 offset-sm-3">
+      <div class="card shadow-sm">
+        <div class="card-body px-3 py-3">
+          <h4 class="text-center mb-3 pb-2 border-bottom">Customer Registration</h4>
+
+          <!-- Django messages -->
+          {% if messages %}
+            {% for message in messages %}
+              {% if 'success' in message.tags %}
+                <p class="text-success fw-semibold small">{{ message }}</p>
+              {% else %}
+                <p class="text-danger fw-semibold small">{{ message }}</p>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+          <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="mb-2">
+                {{ field.label_tag }}
+                {{ field }}
+                <script>
+                  document.getElementsByName('{{ field.name }}')[0]?.classList.add('form-control', 'form-control-sm');
+                </script>
+                {% if field.errors %}
+                  <div class="text-danger small">{{ field.errors|striptags }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <p class="small text-muted mt-2 mb-3">
+              Your personal data will be used to support your experience throughout this website, and for other purposes described in our <a href="#" class="text-decoration-none">privacy policy</a>.
+            </p>
+
+            <div class="d-grid">
+              <button type="submit" class="btn text-white fw-bold" style="background: linear-gradient(90deg, #ff6200, #ff8533); border: none;">
+                Register
+              </button>
+            </div>
+          </form>
+
+          <p class="mt-3 text-center mb-0">
+            Already have an account?
+            <a href="{% url 'login' %}" class="text-decoration-none fw-semibold">Login Now</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main-content %}
